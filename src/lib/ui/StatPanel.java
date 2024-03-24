@@ -84,8 +84,13 @@ public class StatPanel extends JPanel {
         _errorCountLabel.setText("" + errors);
     }
 
+    void setSpeed(int speed) {
+        _speedCountLabel.setText("" + speed);
+    }
+
     void clear() {
         _accuracyPercentLabel.setText("100%");
         _errorCountLabel.setText("0");
+        _speedCountLabel.setText("0");
     }
 }

@@ -65,6 +65,8 @@ public class SimFrame extends JFrame {
         _stat = new Statistics(text.length());
     }
 
+    public void setSpeed(int speed) { _statPanel.setSpeed(speed); }
+
     public void greenAtIndex(int index) {
         _textPanel.greenAtIndex(index);
         _stat.greenIncreace();
@@ -77,6 +79,8 @@ public class SimFrame extends JFrame {
         _statPanel.setAccuracy(_stat.getAccuracy(index));
         _statPanel.setErrors(_stat.getErrors());
     }
+
+    public int getTypedCount() { return _stat.getTypedCount(); }
 
     public void textEnd() {
         JOptionPane.showMessageDialog(this, _stat.getStat(), "INFO", JOptionPane.INFORMATION_MESSAGE);

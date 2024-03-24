@@ -22,7 +22,9 @@ public class Statistics {
         return (int)(percent * 100);
     }
 
-    public int getErrors() { return _redCount;}
+    public int getErrors() { return _redCount; }
+
+    public int getTypedCount() { return _greenCount + _redCount; }
 
     public void clear() {
         _greenCount = 0;

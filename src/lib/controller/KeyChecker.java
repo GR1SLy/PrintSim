@@ -12,6 +12,8 @@ public class KeyChecker extends KeyAdapter {
     private String _text;
     private int _index = 0;
 
+    private CharTimer _timer;
+
     private boolean _isEnd = false;
 
     public KeyChecker(SimFrame simframe) {
@@ -25,6 +27,10 @@ public class KeyChecker extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyChar());
         if (!_isEnd) {
+            if (_index == 0) { 
+                _timer = new CharTimer(_simFrame);
+                _timer.start(); 
+            }
             if (e.getKeyChar() == _text.charAt(_index)) {
                 //green
                 _simFrame.greenAtIndex(_index);
@@ -35,6 +41,7 @@ public class KeyChecker extends KeyAdapter {
             _index++;
             if (_index >= _text.length()) {
                 _isEnd = true;
+                _timer.stop();
                 _simFrame.textEnd();
             }
         } else {
