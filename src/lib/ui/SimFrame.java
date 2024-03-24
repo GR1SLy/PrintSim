@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import lib.controller.KeyChecker;
 import lib.controller.Statistics;
@@ -28,7 +27,7 @@ public class SimFrame extends JFrame {
     {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
-        setMinimumSize(new Dimension(500, 500));
+        setMinimumSize(new Dimension(1000, 600));
 
         _statPanel = new StatPanel();
         add(_statPanel, BorderLayout.PAGE_START);
@@ -73,8 +72,8 @@ public class SimFrame extends JFrame {
         _statPanel.setAccuracy(_stat.getAccuracy(index));
     }
 
-    public void redAtIndex(int index) {
-        _textPanel.redAtIndex(index);
+    public void redAtIndex(int index, boolean isSpace) {
+        _textPanel.redAtIndex(index, isSpace);
         _stat.redIncreace();
         _statPanel.setAccuracy(_stat.getAccuracy(index));
         _statPanel.setErrors(_stat.getErrors());
@@ -83,7 +82,6 @@ public class SimFrame extends JFrame {
     public int getTypedCount() { return _stat.getTypedCount(); }
 
     public void textEnd() {
-        JOptionPane.showMessageDialog(this, _stat.getStat(), "INFO", JOptionPane.INFORMATION_MESSAGE);
         _textPanel.pressEnter();
     }
 

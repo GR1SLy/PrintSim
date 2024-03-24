@@ -22,7 +22,7 @@ public class StatPanel extends JPanel {
         _mainPanel.setLayout(new GridLayout(1, 3, 100, 0));
         _mainPanel.setOpaque(false);
         add(_mainPanel);
-        setBackground(Color.BLACK);
+        setBackground(new Color(30, 30, 30));
 
         //<--------Accuracy-------->
         _accuracyPercentLabel = new JLabel("100%", SwingConstants.CENTER);

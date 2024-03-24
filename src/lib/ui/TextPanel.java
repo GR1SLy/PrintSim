@@ -8,6 +8,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class TextPanel extends JPanel {
 
@@ -25,7 +27,15 @@ public class TextPanel extends JPanel {
         _doc.setCharacterAttributes(index, 1, _greenStyle, false);
     }
 
-    void redAtIndex(int index) {
+    void redAtIndex(int index, boolean isSpace) {
+        if (isSpace) {
+            try {
+                _doc.remove(index, 1);
+                _doc.insertString(index, "·", _defauStyle);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
         _doc.setCharacterAttributes(index, 1, _redStyle, false);
     }
 
@@ -52,16 +62,22 @@ public class TextPanel extends JPanel {
 
     {
         //<--------Panel settings-------->
-        setBackground(Color.BLACK);
-        add(_textPane);
+        setBackground(new Color(30, 30, 30));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(_textPane, gbc);
         
         //<--------Styles-------->
         _defauStyle = _textPane.addStyle("Light Gray", null);
         StyleConstants.setForeground(_defauStyle, Color.LIGHT_GRAY);
+        StyleConstants.setFontSize(_defauStyle, 20);
         _redStyle = _textPane.addStyle("Red", null);
-        StyleConstants.setForeground(_redStyle, Color.RED);
+        StyleConstants.setForeground(_redStyle, new Color(240, 90, 100));
         _greenStyle = _textPane.addStyle("Dark Gray", null);
-        StyleConstants.setForeground(_greenStyle, Color.DARK_GRAY);
+        StyleConstants.setForeground(_greenStyle, new Color(100, 100, 100));
         _centeredStyle = _textPane.addStyle("Centered", null);
         StyleConstants.setAlignment(_centeredStyle, StyleConstants.ALIGN_CENTER);
 
