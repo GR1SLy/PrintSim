@@ -1,12 +1,13 @@
 package lib.controller;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class TextReader {
 
     private String _direction = "../lib/texts/";
 
-    private int _textNumber = 0;
+    private int _textNumber = 0, _phraseNumber = 0;
     
     public TextReader() {
         super();
@@ -18,17 +19,14 @@ public class TextReader {
     }
 
     public String getNextText() {
-        return getText(_textNumber++);
+        return getText(_textNumber, _phraseNumber++);
     }
 
-    public String getText(int textNumber) {
+    public String getText(int textNumber, int phraseNumber) {
         String text = "";
         try {
-            FileReader reader = new FileReader(_direction + "text" + textNumber + ".txt");
-            int c;
-            while ((c = reader.read()) != -1) {
-                text += (char)c;
-            }
+            BufferedReader reader = new BufferedReader(new FileReader(_direction + "text" + textNumber + ".txt"));
+            for (int i = 0; i <= phraseNumber; i++) { text = reader.readLine(); if (text == "") phraseNumber++; }
             System.out.println(text);
             reader.close();
         } catch (Exception e) { e.printStackTrace(); }
