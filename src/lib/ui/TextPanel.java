@@ -51,6 +51,10 @@ public class TextPanel extends JPanel {
     private Style _redStyle, _greenStyle, _defauStyle, _centeredStyle;
 
     {
+        //<--------Panel settings-------->
+        setBackground(Color.BLACK);
+        add(_textPane);
+        
         //<--------Styles-------->
         _defauStyle = _textPane.addStyle("Light Gray", null);
         StyleConstants.setForeground(_defauStyle, Color.LIGHT_GRAY);
@@ -65,11 +69,6 @@ public class TextPanel extends JPanel {
         _textPane.setEditable(false);
         _textPane.setFocusable(false);
         _textPane.setOpaque(false);
-
-        //<--------Panel settings-------->
-        // setOpaque(false);
-        setBackground(Color.BLACK);
-        add(_textPane);
     }
     
 }

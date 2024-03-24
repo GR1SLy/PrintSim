@@ -14,13 +14,15 @@ public class Statistics {
     public void redIncreace() { _redCount++; }
 
     public String getStat() {
-        return "Finished! Accuracy: " + percent() + "%\tErrors: " + _redCount;
+        return "Finished! Accuracy: " + getAccuracy(_keyCount - 1) + "%\tErrors: " + _redCount;
     }
 
-    private int percent() {
-        double percent = (double) _greenCount / (double) _keyCount;
+    public int getAccuracy(int index) {
+        double percent = (double) _greenCount / (double) (index + 1);
         return (int)(percent * 100);
     }
+
+    public int getErrors() { return _redCount;}
 
     public void clear() {
         _greenCount = 0;

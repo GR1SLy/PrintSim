@@ -2,6 +2,7 @@ package lib.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,6 +17,8 @@ public class SimFrame extends JFrame {
 
     private TextPanel _textPanel;
 
+    private StatPanel _statPanel;
+
     private KeyChecker _keyChecker;
 
     private Statistics _stat;
@@ -25,6 +28,11 @@ public class SimFrame extends JFrame {
     {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
+        setMinimumSize(new Dimension(500, 500));
+
+        _statPanel = new StatPanel();
+        add(_statPanel, BorderLayout.PAGE_START);
+
         _textPanel = new TextPanel();
         add(_textPanel, BorderLayout.CENTER);
 
@@ -60,11 +68,14 @@ public class SimFrame extends JFrame {
     public void greenAtIndex(int index) {
         _textPanel.greenAtIndex(index);
         _stat.greenIncreace();
+        _statPanel.setAccuracy(_stat.getAccuracy(index));
     }
 
     public void redAtIndex(int index) {
         _textPanel.redAtIndex(index);
         _stat.redIncreace();
+        _statPanel.setAccuracy(_stat.getAccuracy(index));
+        _statPanel.setErrors(_stat.getErrors());
     }
 
     public void textEnd() {
@@ -73,7 +84,7 @@ public class SimFrame extends JFrame {
     }
 
     public void clear() {
-        _textPanel.clear();
+        _statPanel.clear();
         _stat.clear();
     }
     
