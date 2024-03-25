@@ -43,7 +43,7 @@ public class SimFrame extends JFrame {
         super();
         WIDTH = width;
         HEIGHT = height;
-        requestText();
+        requestPhrase();
     }
 
     public void createFrame() {
@@ -54,14 +54,18 @@ public class SimFrame extends JFrame {
         setVisible(true);
     }
 
-    public void requestText() {
-        setText(_textReader.getNextText());
+    public void requestPhrase() {
+        setPhrase(_textReader.getPhrase());
     }
 
-    public void setText(String text) {
-        _textPanel.setText(text);
-        _keyChecker.setText(text);
-        _stat = new Statistics(text.length());
+    public void requestPhrase(int textNumber, int phraseNumber) {
+        setPhrase(_textReader.getPhrase(textNumber, phraseNumber));
+    }
+
+    public void setPhrase(String phrase) {
+        _textPanel.setPhrase(phrase);
+        _keyChecker.setPhrase(phrase);
+        _stat = new Statistics(phrase.length());
     }
 
     public void setSpeed(int speed) { _statPanel.setSpeed(speed); }
@@ -82,7 +86,7 @@ public class SimFrame extends JFrame {
     public int getTypedCount() { return _stat.getTypedCount(); }
 
     public void textEnd() {
-        _textPanel.pressEnter();
+        _textPanel.requestEnter();
     }
 
     public void clear() {

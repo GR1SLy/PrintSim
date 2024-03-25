@@ -13,10 +13,10 @@ import java.awt.GridBagLayout;
 
 public class TextPanel extends JPanel {
 
-    void setText(String text) {
+    void setPhrase(String phrase) {
         clear();
         try {
-            _doc.insertString(_doc.getLength(), text, _defauStyle);
+            _doc.insertString(_doc.getLength(), phrase, _defauStyle);
             _doc.setParagraphAttributes(0, _doc.getLength(), _centeredStyle, false);
         } catch (BadLocationException e) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class TextPanel extends JPanel {
         }
     }
 
-    void pressEnter() {
+    void requestEnter() {
         try {
             _doc.insertString(_doc.getLength(), "\nPress ENTER to continue...", _defauStyle);
             _doc.setParagraphAttributes(0, _doc.getLength(), _centeredStyle, false);
