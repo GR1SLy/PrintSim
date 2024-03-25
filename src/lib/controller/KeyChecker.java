@@ -25,7 +25,7 @@ public class KeyChecker extends KeyAdapter {
     
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyChar());
+        // System.out.println(e.getKeyChar());
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             _simFrame.requestPhrase();
             _simFrame.clear();
