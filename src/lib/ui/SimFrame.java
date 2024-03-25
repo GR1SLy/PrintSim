@@ -43,7 +43,7 @@ public class SimFrame extends JFrame {
         super();
         WIDTH = width;
         HEIGHT = height;
-        requestPhrase();
+        requestPhrase(2, 5);
     }
 
     public void createFrame() {

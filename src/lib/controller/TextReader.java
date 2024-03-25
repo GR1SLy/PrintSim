@@ -38,7 +38,7 @@ public class TextReader {
             int textNum = _rand.nextInt(TEXT_COUNT);
             BufferedReader reader = new BufferedReader(new FileReader(_direction + "text" + textNum + ".txt"));
             int phraseNum = _rand.nextInt(Integer.parseInt(reader.readLine()));
-            System.out.println("Text: " + textNum + "\tPhrase num: " + phraseNum);
+            System.out.println("Text: " + textNum + "\tPhrase num: " + phraseNum + 1);
             for (int i = 0; i <= phraseNum; i++) {
                 phrase = reader.readLine();
             }

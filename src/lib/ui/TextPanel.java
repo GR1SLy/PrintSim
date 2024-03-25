@@ -3,6 +3,7 @@ package lib.ui;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -18,6 +19,7 @@ public class TextPanel extends JPanel {
         try {
             _doc.insertString(_doc.getLength(), phrase, _defauStyle);
             _doc.setParagraphAttributes(0, _doc.getLength(), _centeredStyle, false);
+            _doc.setCharacterAttributes(0, 1, _caretHighlight, false);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -25,6 +27,8 @@ public class TextPanel extends JPanel {
 
     void greenAtIndex(int index) {
         _doc.setCharacterAttributes(index, 1, _greenStyle, false);
+        _doc.setCharacterAttributes(index, 1, _caretNormal, false);
+        _doc.setCharacterAttributes(index + 1, 1, _caretHighlight, false);
     }
 
     void redAtIndex(int index, boolean isSpace) {
@@ -37,6 +41,8 @@ public class TextPanel extends JPanel {
             }
         }
         _doc.setCharacterAttributes(index, 1, _redStyle, false);
+        _doc.setCharacterAttributes(index, 1, _caretNormal, false);
+        _doc.setCharacterAttributes(index + 1, 1, _caretHighlight, false);
     }
 
     void clear() {
@@ -59,6 +65,7 @@ public class TextPanel extends JPanel {
     private JTextPane _textPane = new JTextPane();
     private StyledDocument _doc = _textPane.getStyledDocument();
     private Style _redStyle, _greenStyle, _defauStyle, _centeredStyle;
+    private SimpleAttributeSet _caretHighlight, _caretNormal;
 
     {
         //<--------Panel settings-------->
@@ -80,6 +87,12 @@ public class TextPanel extends JPanel {
         StyleConstants.setForeground(_greenStyle, new Color(100, 100, 100));
         _centeredStyle = _textPane.addStyle("Centered", null);
         StyleConstants.setAlignment(_centeredStyle, StyleConstants.ALIGN_CENTER);
+
+        //<--------Caret-------->
+        _caretHighlight = new SimpleAttributeSet();
+        StyleConstants.setBackground(_caretHighlight, new Color(100, 130, 200, 80));
+        _caretNormal = new SimpleAttributeSet();
+        StyleConstants.setBackground(_caretNormal, new Color(0, 0, 0, 0));
 
         //<--------TextPane settings-------->
         _textPane.setEditable(false);
