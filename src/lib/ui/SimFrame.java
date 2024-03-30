@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import lib.controller.DiagramPanel;
@@ -67,7 +66,6 @@ public class SimFrame extends JFrame {
         _statButton.setBorderPainted(false);
         _statButton.setFocusable(false);
         _statButton.addActionListener(e -> {
-            // JOptionPane.showMessageDialog(SimFrame.this, _statHistory, "STATS", JOptionPane.INFORMATION_MESSAGE);
             showStatHistory();
         });
 
