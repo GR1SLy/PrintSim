@@ -25,7 +25,6 @@ public class KeyChecker extends KeyAdapter {
     
     @Override
     public void keyPressed(KeyEvent e) {
-        // System.out.println(e.getKeyChar());
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             _simFrame.requestPhrase();
             _simFrame.clear();
@@ -49,9 +48,10 @@ public class KeyChecker extends KeyAdapter {
             }
             if (_index >= _phrase.length()) {
                 _isEnd = true;
+                _simFrame.statAppend(_timer.getSpeed());
                 _timer.stop();
                 _simFrame.textEnd();
             }
-        }
+        } else if (e.getKeyCode() == KeyEvent.VK_BACK_QUOTE) _simFrame.showStatHistory();
     }
 }
