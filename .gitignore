@@ -1,4 +1,4 @@
 bin/
 src/out/
 .vscode/
-src/stats.bin
+src/stat.bin

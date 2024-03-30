@@ -89,7 +89,7 @@ public class DiagramPanel extends JPanel {
         setDiagram();
     }
     
-    public void test() {
+    public void findParams() {
         findUpperBound(findMaxValue());
         findColumnBounds();
         findStep();   
@@ -126,7 +126,7 @@ public class DiagramPanel extends JPanel {
     }
 
     public void setDiagram() {
-        test();
+        findParams();
         _upperBoundLabel.setText("" + _upperBound + "  ");
         _middleBoundLabel.setText("" + (_upperBound / 2));
         System.out.println("Diagram");
