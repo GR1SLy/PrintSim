@@ -33,7 +33,7 @@ public class SimFrame extends JFrame {
 
     private Statistics _stat;
     private ArrayList<Statistics> _statHistory;
-    private static final String SAVE_DIR = "../stats.bin";
+    private static final String SAVE_DIR = "../stat.bin";
     private static final String ICONS_DIR = "../lib/icons/";
 
     private JPanel _statButtonPanel;
