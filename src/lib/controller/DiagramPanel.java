@@ -25,19 +25,26 @@ public class DiagramPanel extends JPanel {
     private JPanel _graphicsPanel;
     
     {
+        Color panelColor = new Color(44, 43, 51);
+
         setLayout(new BorderLayout());
+        setBackground(panelColor);
 
         _mainLabel = new JLabel("Stats", SwingConstants.CENTER);
+        _mainLabel.setForeground(Color.LIGHT_GRAY);
         add(_mainLabel, BorderLayout.PAGE_START);
 
         _upperBoundLabel = new JLabel("", SwingConstants.LEFT);
+        _upperBoundLabel.setForeground(Color.LIGHT_GRAY);
         _upperBoundLabel.setVerticalAlignment(JLabel.NORTH);
 
         _middleBoundLabel = new JLabel("", SwingConstants.LEFT);
+        _middleBoundLabel.setForeground(Color.LIGHT_GRAY);
         _middleBoundLabel.setVerticalAlignment(JLabel.NORTH);
 
         _boundLabelPanel = new JPanel();
         _boundLabelPanel.setLayout(new GridLayout(2, 1));
+        _boundLabelPanel.setOpaque(false);
         _boundLabelPanel.add(_upperBoundLabel);
         _boundLabelPanel.add(_middleBoundLabel);
 
@@ -45,26 +52,30 @@ public class DiagramPanel extends JPanel {
 
         _graphicsPanel = new JPanel() {
             private int x = 20;
+            private static final Color RECT = new Color(240, 170, 110);
+            private static final Color LINE = new Color(100, 100, 100);
 
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(Color.BLACK);
                 for (Statistics stat : _statList) {
                     int i = stat.getSpeed();
                     int columnHeight = (int)(i * _step);
-                    g.drawRect(x, DiagramPanel.this.HEIGHT - columnHeight, _columnWidth, columnHeight);
+                    g.setColor(RECT);
+                    g.fillRect(x, DiagramPanel.this.HEIGHT - columnHeight, _columnWidth, columnHeight);
+                    g.setColor(LINE);
                     g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT / 2);
                     g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), 0, (x + ((_columnWidth / 2) / 2)), 0);
                     x += _columnWidth + _columnOffset;
                 }
             }
         };
+        _graphicsPanel.setBackground(panelColor);
         add(_graphicsPanel, BorderLayout.CENTER);
     }
 
-    public DiagramPanel(int width, int height, ArrayList<Statistics> _statList) {
+    public DiagramPanel(int width, int height, ArrayList<Statistics> statList) {
         super();
-        this._statList = _statList;
+        _statList = statList;
         WIDTH = width - 50;
         HEIGHT = height - 10;
         setDiagram();
