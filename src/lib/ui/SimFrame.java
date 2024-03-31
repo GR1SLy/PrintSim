@@ -1,6 +1,7 @@
 package lib.ui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -25,6 +26,8 @@ public class SimFrame extends JFrame {
 
     private final int WIDTH, HEIGHT;
 
+    private JPanel _mainPanel, _globalPanel;
+
     private TextPanel _textPanel;
 
     private StatPanel _statPanel;
@@ -34,10 +37,11 @@ public class SimFrame extends JFrame {
     private Statistics _stat;
     private ArrayList<Statistics> _statHistory;
     private static final String SAVE_DIR = "../stat.bin";
-    private static final String ICONS_DIR = "../lib/icons/";
+    public static final String ICONS_DIR = "../lib/icons/";
 
     private JPanel _statButtonPanel;
     private JButton _statButton;
+    private DiagramPanel _diagramPanel;
 
     private TextReader _textReader = new TextReader();
 
@@ -47,14 +51,22 @@ public class SimFrame extends JFrame {
         setBackground(Color.BLACK);
         setMinimumSize(new Dimension(1000, 600));
 
+        _globalPanel = new JPanel();
+        _globalPanel.setLayout(new CardLayout());
+        add(_globalPanel, BorderLayout.CENTER);
+
+        _mainPanel = new JPanel();
+        _mainPanel.setLayout(new BorderLayout());
+        _globalPanel.add(_mainPanel);
+
         _statPanel = new StatPanel();
-        add(_statPanel, BorderLayout.PAGE_START);
+        _mainPanel.add(_statPanel, BorderLayout.PAGE_START);
 
         _textPanel = new TextPanel();
-        add(_textPanel, BorderLayout.CENTER);
+        _mainPanel.add(_textPanel, BorderLayout.CENTER);
 
         _keyChecker = new KeyChecker(this);
-        addKeyListener(_keyChecker);
+        _mainPanel.addKeyListener(_keyChecker);
 
         _stat = new Statistics();
 
@@ -66,24 +78,34 @@ public class SimFrame extends JFrame {
         _statButton.setBorderPainted(false);
         _statButton.setFocusable(false);
         _statButton.addActionListener(e -> {
-            showStatHistory();
+            // showStatHistory();
+            _diagramPanel.setStats(_statHistory);
+            ((CardLayout)_globalPanel.getLayout()).next(_globalPanel);
+            _diagramPanel.requestFocus();
         });
 
         _statButtonPanel = new JPanel();
         _statButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         _statButtonPanel.setBackground(new Color(30, 30, 30));
         _statButtonPanel.add(_statButton);
-        add(_statButtonPanel, BorderLayout.PAGE_END);
+        _mainPanel.add(_statButtonPanel, BorderLayout.PAGE_END);
 
+        
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             SimFrame.serializeStats(_statHistory);
         }));
     }
-
+    
     public SimFrame(int width, int height) {
         super();
         WIDTH = width;
         HEIGHT = height;
+        _diagramPanel = new DiagramPanel(WIDTH, HEIGHT);
+        _diagramPanel.getBackButton().addActionListener(e -> {
+            ((CardLayout)_globalPanel.getLayout()).previous(_globalPanel);
+            _mainPanel.requestFocus();
+        });
+        _globalPanel.add(_diagramPanel);
         requestPhrase();
     }
 
@@ -93,6 +115,7 @@ public class SimFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        _mainPanel.requestFocus();
     }
 
     public void requestPhrase() {
@@ -144,7 +167,7 @@ public class SimFrame extends JFrame {
         JFrame newFrame = new JFrame();
         newFrame.setSize(1000, 600);
         newFrame.setLocationRelativeTo(null);
-        newFrame.add(new DiagramPanel(1000, 600, _statHistory));
+        newFrame.add(new DiagramPanel(1000, 600));
         newFrame.setVisible(true);
     }
 

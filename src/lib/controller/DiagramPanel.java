@@ -2,12 +2,17 @@ package lib.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import lib.ui.SimFrame;
 
 public class DiagramPanel extends JPanel {
 
@@ -21,6 +26,8 @@ public class DiagramPanel extends JPanel {
     private JLabel _mainLabel;
 
     private JPanel _graphicsPanel;
+
+    private JButton _backButton;
     
     {
         Color panelColor = new Color(44, 43, 51);
@@ -37,10 +44,13 @@ public class DiagramPanel extends JPanel {
             private static final Color ERROR_RECT = new Color(240, 160, 160);
             private static final Color LINE = new Color(100, 100, 100);
             private JLabel count;
+            private ArrayList<JLabel> labels = new ArrayList<>();
 
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                for (JLabel label : labels) remove(label);
+                labels.clear();
                 int x = 20;
                 for (Statistics stat : _statList) {
                     int speed = stat.getSpeed();
@@ -57,6 +67,7 @@ public class DiagramPanel extends JPanel {
                     count.setForeground(Color.WHITE);
                     count.setBounds(x, UP_HEIGHT - columnHeight, _columnWidth, 30);
                     add(count);
+                    labels.addLast(count);
 
                     g.setColor(LINE);
                     g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), UP_HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), UP_HEIGHT / 2);
@@ -71,42 +82,58 @@ public class DiagramPanel extends JPanel {
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, 0, 45, 30);
                 add(count);
+                labels.addLast(count);
                 count = new JLabel("" + (_upperBound / 2), JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT / 2, 45, 30);
                 add(count);
+                labels.addLast(count);
 
                 count = new JLabel("speed", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT - 30, 50, 30);
                 add(count);
+                labels.addLast(count);
                 count = new JLabel("errors", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT + 10, 50, 30);
                 add(count);
+                labels.addLast(count);
                 
                 count = new JLabel("" + _lowerBound, JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.EAST);
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.HEIGHT - 30, 45, 30);
                 add(count);
+                labels.addLast(count);
             }
         };
         _graphicsPanel.setBackground(panelColor);
         add(_graphicsPanel, BorderLayout.CENTER);
+
+        _backButton = new JButton(new ImageIcon(SimFrame.ICONS_DIR + "back_stats_icon.png"));
+        _backButton.setBorderPainted(false);
+        _backButton.setContentAreaFilled(false);
+        _backButton.setFocusable(false);
+
+        JPanel _backPanel = new JPanel();
+        _backPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        _backPanel.setOpaque(false);
+        _backPanel.add(_backButton);
+        add(_backPanel, BorderLayout.PAGE_END);        
     }
 
-    public DiagramPanel(int width, int height, ArrayList<Statistics> statList) {
+    public JButton getBackButton() { return _backButton; }
+    
+    public DiagramPanel(int width, int height) {
         super();
-        _statList = statList;
         WIDTH = width - 50;
-        UP_HEIGHT = height - 200;
-        DOWN_HEIGHT = height - UP_HEIGHT - 50;
-        HEIGHT = height - 50;
-        findParams();
+        UP_HEIGHT = height - 250;
+        DOWN_HEIGHT = height - UP_HEIGHT - 100;
+        HEIGHT = height - 100;
     }
     
     public void findParams() {
@@ -115,6 +142,12 @@ public class DiagramPanel extends JPanel {
         findColumnBounds();
         _upStep = findStep(UP_HEIGHT);
         _downStep = findStep(DOWN_HEIGHT);
+    }
+
+    public void setStats(ArrayList<Statistics> stats) {
+        _statList = stats;
+        findParams();
+        revalidate();
     }
 
     private int findMaxValue(boolean isSpeed) {
