@@ -47,25 +47,25 @@ public class DiagramPanel extends JPanel {
                     int errors = stat.getErrors();
                     int columnHeight = (int)(speed * _upStep);
                     g.setColor(SPEED_RECT);
-                    g.fillRect(x, DiagramPanel.this.UP_HEIGHT - columnHeight, _columnWidth, columnHeight);
+                    g.fillRect(x, UP_HEIGHT - columnHeight, _columnWidth, columnHeight);
 
                     g.setColor(ERROR_RECT);
-                    g.fillRect(x, DiagramPanel.this.UP_HEIGHT, _columnWidth, (int)(errors * _downStep));
+                    g.fillRect(x, UP_HEIGHT, _columnWidth, (int)(errors * _downStep));
 
                     count = new JLabel("" + speed, JLabel.CENTER);
                     count.setVerticalAlignment(JLabel.NORTH);
                     count.setForeground(Color.WHITE);
-                    count.setBounds(x, DiagramPanel.this.UP_HEIGHT - columnHeight, _columnWidth, 30);
+                    count.setBounds(x, UP_HEIGHT - columnHeight, _columnWidth, 30);
                     add(count);
 
                     g.setColor(LINE);
-                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), DiagramPanel.this.UP_HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), DiagramPanel.this.UP_HEIGHT / 2);
+                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), UP_HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), UP_HEIGHT / 2);
                     g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), 0, (x + ((_columnWidth / 2) / 2)), 0);
                     g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT, (x + ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT);
                     x += _columnWidth + _columnOffset;
                 }
 
-                g.drawLine(20, DiagramPanel.this.UP_HEIGHT, DiagramPanel.this.WIDTH + 10, DiagramPanel.this.UP_HEIGHT);
+                g.drawLine(20, UP_HEIGHT, DiagramPanel.this.WIDTH + 10, UP_HEIGHT);
                 count = new JLabel("" + _upperBound, JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
@@ -74,25 +74,24 @@ public class DiagramPanel extends JPanel {
                 count = new JLabel("" + (_upperBound / 2), JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.UP_HEIGHT / 2, 45, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT / 2, 45, 30);
                 add(count);
 
                 count = new JLabel("speed", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.UP_HEIGHT - 30, 50, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT - 30, 50, 30);
                 add(count);
                 count = new JLabel("errors", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.UP_HEIGHT + 10, 50, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT + 10, 50, 30);
                 add(count);
                 
                 count = new JLabel("" + _lowerBound, JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.EAST);
                 count.setForeground(Color.WHITE);
                 count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.HEIGHT - 30, 45, 30);
-                System.out.println("DOWN_HEIGHT: " + (DiagramPanel.this.HEIGHT));
                 add(count);
             }
         };
@@ -107,7 +106,7 @@ public class DiagramPanel extends JPanel {
         UP_HEIGHT = height - 200;
         DOWN_HEIGHT = height - UP_HEIGHT - 50;
         HEIGHT = height - 50;
-        setDiagram();
+        findParams();
     }
     
     public void findParams() {
@@ -152,7 +151,7 @@ public class DiagramPanel extends JPanel {
         double step;
         if (height == UP_HEIGHT) step = (double)height / (double)_upperBound;
         else step = (double)height / (double)_lowerBound;
-        System.out.println("Step: " + step + "\theight: " + height);
+        System.out.println("Step: " + step);
         return step;
     }
 
@@ -161,10 +160,5 @@ public class DiagramPanel extends JPanel {
         _columnOffset = _columnWidth / 10;
         _columnWidth -= _columnOffset;
         System.out.println("_columnWidth: " + _columnWidth + " _columnOffset: " + _columnOffset);
-    }
-
-    public void setDiagram() {
-        findParams();
-        System.out.println("Diagram");
     }
 }
