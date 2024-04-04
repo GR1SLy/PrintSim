@@ -3,6 +3,7 @@ package lib.controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -66,7 +67,8 @@ public class DiagramPanel extends JPanel {
                     count = new JLabel("" + speed, JLabel.CENTER);
                     count.setVerticalAlignment(JLabel.NORTH);
                     count.setForeground(Color.WHITE);
-                    count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 30);
+                    count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 30); 
+                    count.setFont(count.getFont().deriveFont(((float)_columnWidth / 2f) - 1f));
                     add(count);
                     labels.addLast(count);
 
