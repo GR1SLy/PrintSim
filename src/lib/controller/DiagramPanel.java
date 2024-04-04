@@ -16,7 +16,7 @@ import lib.ui.SimFrame;
 
 public class DiagramPanel extends JPanel {
 
-    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT;
+    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT, OFFSET = 200;
 
     private ArrayList<Statistics> _statList;
 
@@ -51,62 +51,64 @@ public class DiagramPanel extends JPanel {
                 super.paintComponent(g);
                 for (JLabel label : labels) remove(label);
                 labels.clear();
-                int x = 20;
+                int x = 20 + (OFFSET / 2);
+                int y = (int)((double)OFFSET / 3.5);
                 for (Statistics stat : _statList) {
                     int speed = stat.getSpeed();
                     int errors = stat.getErrors();
                     int columnHeight = (int)(speed * _upStep);
                     g.setColor(SPEED_RECT);
-                    g.fillRect(x, UP_HEIGHT - columnHeight, _columnWidth, columnHeight);
+                    g.fillRect(x, y + UP_HEIGHT - columnHeight, _columnWidth, columnHeight);
 
                     g.setColor(ERROR_RECT);
-                    g.fillRect(x, UP_HEIGHT, _columnWidth, (int)(errors * _downStep));
+                    g.fillRect(x, y + UP_HEIGHT, _columnWidth, (int)(errors * _downStep));
 
                     count = new JLabel("" + speed, JLabel.CENTER);
                     count.setVerticalAlignment(JLabel.NORTH);
                     count.setForeground(Color.WHITE);
-                    count.setBounds(x, UP_HEIGHT - columnHeight, _columnWidth, 30);
+                    count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 30);
                     add(count);
                     labels.addLast(count);
 
                     g.setColor(LINE);
-                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), UP_HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), UP_HEIGHT / 2);
-                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), 0, (x + ((_columnWidth / 2) / 2)), 0);
-                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT, (x + ((_columnWidth / 2) / 2)), DiagramPanel.this.HEIGHT);
+                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), y + UP_HEIGHT / 2, (x + ((_columnWidth / 2) / 2)), y + UP_HEIGHT / 2);
+                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), y, (x + ((_columnWidth / 2) / 2)), y);
+                    g.drawLine((x - _columnOffset - ((_columnWidth / 2) / 2)), y + DiagramPanel.this.HEIGHT, (x + ((_columnWidth / 2) / 2)), y + DiagramPanel.this.HEIGHT);
                     x += _columnWidth + _columnOffset;
                 }
 
-                g.drawLine(20, UP_HEIGHT, DiagramPanel.this.WIDTH + 10, UP_HEIGHT);
+                g.drawLine(20 + (OFFSET / 2), y + UP_HEIGHT, DiagramPanel.this.WIDTH + 10, y + UP_HEIGHT);
+
                 count = new JLabel("" + _upperBound, JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, 0, 45, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, y, 45, 30);
                 add(count);
                 labels.addLast(count);
                 count = new JLabel("" + (_upperBound / 2), JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT / 2, 45, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, y + UP_HEIGHT / 2, 45, 30);
                 add(count);
                 labels.addLast(count);
 
                 count = new JLabel("speed", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT - 30, 50, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, y + UP_HEIGHT - 30, 50, 30);
                 add(count);
                 labels.addLast(count);
                 count = new JLabel("errors", JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.NORTH);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, UP_HEIGHT + 10, 50, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, y + UP_HEIGHT + 10, 50, 30);
                 add(count);
                 labels.addLast(count);
                 
                 count = new JLabel("" + _lowerBound, JLabel.RIGHT);
                 count.setVerticalAlignment(JLabel.EAST);
                 count.setForeground(Color.WHITE);
-                count.setBounds(DiagramPanel.this.WIDTH, DiagramPanel.this.HEIGHT - 30, 45, 30);
+                count.setBounds(DiagramPanel.this.WIDTH, y + DiagramPanel.this.HEIGHT - 30, 45, 30);
                 add(count);
                 labels.addLast(count);
             }
@@ -130,10 +132,10 @@ public class DiagramPanel extends JPanel {
     
     public DiagramPanel(int width, int height) {
         super();
-        WIDTH = width - 50;
-        UP_HEIGHT = height - 250;
-        DOWN_HEIGHT = height - UP_HEIGHT - 100;
-        HEIGHT = height - 100;
+        WIDTH = width - 50 - (OFFSET / 2);
+        UP_HEIGHT = height - 250 - (OFFSET / 2);
+        DOWN_HEIGHT = height - UP_HEIGHT - 100 - (OFFSET / 2);
+        HEIGHT = height - 100 - (OFFSET / 2);
     }
     
     public void findParams() {
@@ -189,7 +191,7 @@ public class DiagramPanel extends JPanel {
     }
 
     private void findColumnBounds() {
-        _columnWidth = WIDTH / _statList.size();
+        _columnWidth = (WIDTH - (OFFSET / 2)) / _statList.size();
         _columnOffset = _columnWidth / 10;
         _columnWidth -= _columnOffset;
         System.out.println("_columnWidth: " + _columnWidth + " _columnOffset: " + _columnOffset);
