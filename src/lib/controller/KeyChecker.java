@@ -28,6 +28,7 @@ public class KeyChecker extends KeyAdapter {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             _simFrame.requestPhrase();
             _simFrame.clear();
+            if (_index != 0) _timer.stop();
             _index = 0;
             _isEnd = false;
         }
