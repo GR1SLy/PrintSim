@@ -17,7 +17,7 @@ import lib.ui.SimFrame;
 
 public class DiagramPanel extends JPanel {
 
-    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT, OFFSET = 200;
+    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT, OFFSET = 400;
 
     private ArrayList<Statistics> _statList;
 
@@ -144,8 +144,9 @@ public class DiagramPanel extends JPanel {
         _upperBound = findUpperBound(findMaxValue(true));
         _lowerBound = findLowerBound(findMaxValue(false));
         findColumnBounds();
-        _upStep = findStep(UP_HEIGHT);
-        _downStep = findStep(DOWN_HEIGHT);
+        _upStep = findStep(true);
+        _downStep = findStep(false);
+        System.out.println("UP_HEIGHT: " + UP_HEIGHT + " DOWN_HEIGHT: " + DOWN_HEIGHT);
     }
 
     public void setStats(ArrayList<Statistics> stats) {
@@ -184,10 +185,10 @@ public class DiagramPanel extends JPanel {
         return bound;
     }
 
-    private double findStep(int height) {
+    private double findStep(boolean isUpper) {
         double step;
-        if (height == UP_HEIGHT) step = (double)height / (double)_upperBound;
-        else step = (double)height / (double)_lowerBound;
+        if (isUpper) step = (double)UP_HEIGHT / (double)_upperBound;
+        else step = (double)DOWN_HEIGHT / (double)_lowerBound;
         System.out.println("Step: " + step);
         return step;
     }
