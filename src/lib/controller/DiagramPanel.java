@@ -17,7 +17,7 @@ import lib.ui.SimFrame;
 
 public class DiagramPanel extends JPanel {
 
-    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT, OFFSET = 400;
+    private final int WIDTH, UP_HEIGHT, DOWN_HEIGHT, HEIGHT, OFFSET = 200;
 
     private ArrayList<Statistics> _statList;
 
@@ -67,8 +67,13 @@ public class DiagramPanel extends JPanel {
                     count = new JLabel("" + speed, JLabel.CENTER);
                     count.setVerticalAlignment(JLabel.NORTH);
                     count.setForeground(Color.WHITE);
-                    count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 30); 
-                    count.setFont(count.getFont().deriveFont(((float)_columnWidth / 2f) - 1f));
+                    if (_columnWidth <= 66) {
+                        count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 30); 
+                        count.setFont(count.getFont().deriveFont(((float)_columnWidth / 2f) - 1f));
+                    } else {
+                        count.setBounds(x, y + UP_HEIGHT - columnHeight, _columnWidth, 40);
+                        count.setFont(count.getFont().deriveFont(32f));
+                    }
                     add(count);
                     labels.addLast(count);
 
