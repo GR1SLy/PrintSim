@@ -27,6 +27,7 @@ public class Statistics implements Serializable {
         double percent = (double) _greenCount / (double) (index + 1);
         return (int)(percent * 100);
     }
+    public int getAccuracy() { return _accuracy; }
 
     public int getErrors() { return _redCount; }
 

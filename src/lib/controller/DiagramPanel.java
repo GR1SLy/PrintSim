@@ -24,7 +24,7 @@ public class DiagramPanel extends JPanel {
     private int _upperBound, _lowerBound, _columnWidth, _columnOffset;
     private double _upStep, _downStep;
 
-    private JLabel _mainLabel;
+    private JLabel _mainLabel, _avgLabel;
 
     private JPanel _graphicsPanel;
 
@@ -36,9 +36,20 @@ public class DiagramPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(panelColor);
 
-        _mainLabel = new JLabel("Stats", SwingConstants.CENTER);
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new FlowLayout());
+        labelPanel.setOpaque(false);
+        add(labelPanel, BorderLayout.PAGE_START);
+
+        _mainLabel = new JLabel("Statistics    ");
         _mainLabel.setForeground(Color.WHITE);
-        add(_mainLabel, BorderLayout.PAGE_START);
+        _mainLabel.setFont(new Font("Lucida Console", Font.BOLD, 24));
+        labelPanel.add(_mainLabel);
+        
+        _avgLabel = new JLabel();
+        _avgLabel.setForeground(Color.WHITE);
+        _avgLabel.setFont(new Font("Lucida Console", Font.ITALIC, 16));
+        labelPanel.add(_avgLabel);
 
         _graphicsPanel = new JPanel() {
             private static final Color SPEED_RECT = new Color(240, 170, 110);
@@ -152,6 +163,10 @@ public class DiagramPanel extends JPanel {
         _upStep = findStep(true);
         _downStep = findStep(false);
         System.out.println("UP_HEIGHT: " + UP_HEIGHT + " DOWN_HEIGHT: " + DOWN_HEIGHT);
+
+        _avgLabel.setText("<html>Average accuracy: " + findAvgAccuracy() + "%" +
+                                        "<br/>Average speed: " + findAvgSpeed() + 
+                                        "<br/>Average Errors: " + findAvgErrors() + "</html>");
     }
 
     public void setStats(ArrayList<Statistics> stats) {
@@ -203,5 +218,29 @@ public class DiagramPanel extends JPanel {
         _columnOffset = _columnWidth / 10;
         _columnWidth -= _columnOffset;
         System.out.println("_columnWidth: " + _columnWidth + " _columnOffset: " + _columnOffset);
+    }
+
+    private int findAvgAccuracy() {
+        double avgAccuracy = 0;
+        for (Statistics stat : _statList) avgAccuracy += stat.getAccuracy();
+        System.out.println("avg accuracy sum: " + avgAccuracy);
+        avgAccuracy /= _statList.size();
+        return (int)avgAccuracy;
+    }
+
+    private int findAvgSpeed() {
+        double avgSpeed = 0;
+        for (Statistics stat : _statList) avgSpeed += stat.getSpeed();
+        System.out.println("avg speed sum: " + avgSpeed);
+        avgSpeed /= _statList.size();
+        return (int)avgSpeed;
+    }
+
+    private int findAvgErrors() {
+        double avgErrors = 0;
+        for (Statistics stat : _statList) avgErrors += stat.getErrors();
+        System.out.println("avg errors sum: " + avgErrors);
+        avgErrors /= _statList.size();
+        return (int)avgErrors;
     }
 }
