@@ -25,6 +25,19 @@ public class TextPanel extends JPanel {
         }
     }
 
+    void clearAtIndex(int index, boolean isSpace) {
+        _doc.setCharacterAttributes(index, 1, _defauStyle, false);
+        if (isSpace) {
+            try {
+                _doc.remove(index, 1);
+                _doc.insertString(index, " ", _defauStyle);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+        setBackCaret(index);
+    }
+
     void greenAtIndex(int index) {
         _doc.setCharacterAttributes(index, 1, _greenStyle, false);
         setCaret(index);
@@ -46,6 +59,11 @@ public class TextPanel extends JPanel {
     void setCaret(int index) {
         _doc.setCharacterAttributes(index, 1, _caretNormal, false);
         _doc.setCharacterAttributes(index + 1, 1, _caretHighlight, false);
+    }
+
+    void setBackCaret(int index) {
+        _doc.setCharacterAttributes(index + 1, 1, _caretNormal, false);
+        _doc.setCharacterAttributes(index, 1, _caretHighlight, false);
     }
 
     void clear() {

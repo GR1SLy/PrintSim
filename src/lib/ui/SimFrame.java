@@ -134,6 +134,10 @@ public class SimFrame extends JFrame {
 
     public void setSpeed(int speed) { _statPanel.setSpeed(speed); }
 
+    public void clearAtIndex(int index, boolean isSpace) {
+        _textPanel.clearAtIndex(index, isSpace);
+    }
+
     public void greenAtIndex(int index) {
         _textPanel.greenAtIndex(index);
         _stat.greenIncreace();
